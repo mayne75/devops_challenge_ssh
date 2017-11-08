@@ -1,0 +1,17 @@
+{
+  "id": "server-c-ubuntu-1604",
+  "chef_environment": "_default",
+  "automatic": {
+    "ipaddress": "172.28.128.78",
+    "platform": "ubuntu",
+    "fqdn": "server-c-ubuntu-1604.vagrantup.com",
+    "recipes": [
+      "devops::server"
+    ]
+  },
+  "normal": {
+  },
+  "run_list": [
+    "recipe[devops::server]"
+  ]
+}

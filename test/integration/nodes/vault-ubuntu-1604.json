@@ -1,0 +1,19 @@
+{
+  "id": "vault-ubuntu-1604",
+  "chef_environment": "_default",
+  "automatic": {
+    "ipaddress": "172.28.128.8",
+    "platform": "ubuntu",
+    "fqdn": "vault-ubuntu-1604.vagrantup.com",
+    "recipes": [
+      "devops::vbox_ipaddress",
+      "devops::vault_install"
+    ]
+  },
+  "normal": {
+  },
+  "run_list": [
+    "recipe[devops::vbox_ipaddress]",
+    "recipe[devops::vault_install]"
+  ]
+}

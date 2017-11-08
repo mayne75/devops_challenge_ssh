@@ -1,0 +1,62 @@
+---
+driver:
+  name: ec2 
+  aws_ssh_key_id: devops
+  security_group_ids: ["sg-3b8c4653"]
+  region: eu-west-2
+  availability_zone: b
+  require_chef_omnibus: true
+  instance_type: t2.micro
+  associate_public_ip: true
+  shared_credentials_profile: devops 
+
+provisioner:
+  name: chef_solo 
+  # You may wish to disable always updating cookbooks in CI or other testing environments.
+  # For example:
+  #   always_update_cookbooks: <%= !ENV['CI'] %>
+  always_update_cookbooks: true
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: ubuntu-16.04
+    driver:
+      image_id: ami-996372fd
+    transport:
+      ssh_key: ~/Keys/devops.pem
+      username: ubuntu
+
+suites:
+  - name: vault 
+    run_list:
+      - recipe[devops::vault_install]
+      - recipe[devops::create_roles]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
+      devops:
+        vault_token: <%= ENV['VAULT_TOKEN'] %>
+  - name: server-a 
+    run_list:
+      - recipe[devops::server]
+    attributes:
+      devops:
+        vault_addr: <%= ENV['VAULT_ADDR'] %>
+        vault_token: <%= ENV['VAULT_TOKEN'] %>
+  - name: server-b 
+    run_list:
+      - recipe[devops::server]
+    attributes:
+      devops:
+        vault_addr: <%= ENV['VAULT_ADDR'] %>
+        vault_token: <%= ENV['VAULT_TOKEN'] %>
+  - name: student 
+    run_list:
+      - recipe[devops::student]
+    attributes:
+      devops:
+        vault_addr: <%= ENV['VAULT_ADDR'] %>
+        vault_token: <%= ENV['VAULT_TOKEN'] %>
