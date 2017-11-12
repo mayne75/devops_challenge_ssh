@@ -32,7 +32,6 @@ suites:
   - name: vault 
     run_list:
       - recipe[devops::vault_install]
-      - recipe[devops::create_roles]
     verifier:
       inspec_tests:
         - test/smoke/default
@@ -55,7 +54,9 @@ suites:
         vault_token: <%= ENV['VAULT_TOKEN'] %>
   - name: student 
     run_list:
-      - recipe[devops::student]
+      - recipe[devops::create_students]
+      - recipe[devops::create_roles]
+      - recipe[devops::create_keys]
     attributes:
       devops:
         vault_addr: <%= ENV['VAULT_ADDR'] %>

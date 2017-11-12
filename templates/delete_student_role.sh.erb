@@ -1,0 +1,5 @@
+!/bin/bash
+# Delete Student Role Script
+
+curl -s -k -X DELETE -H "x-Vault-Token: <%= @vault_token %>" <%= @vault_addr %>/v1/ssh-client-signer/roles/<%= @username %>
+

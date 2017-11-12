@@ -1,0 +1,5 @@
+!/bin/bash
+# Create Student Role Script
+
+curl -s -k -X POST -H "x-Vault-Token: <%= @vault_token %>" -d @/home/<%= @username %>/role.json <%= @vault_addr %>/v1/ssh-client-signer/roles/<%= @username %>
+

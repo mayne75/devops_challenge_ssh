@@ -1,0 +1,6 @@
+!/bin/bash
+# Setup script that will call vault and generate the signed key
+
+payload='{"valid_principals": "<%= @username %>", "public_key": "'`cat /home/<%= @username %>/.ssh/unsigned.rsa.pub`'"}'
+curl -s -k -X POST -H "x-Vault-Token: <%= @vault_token %>" -d "${payload}" <%= @vault_addr %>/v1/ssh-client-signer/sign/<%= @username %> | jq -r .data.signed_key > /home/<%= @username %>/.ssh/signed.rsa.pub
+chmod 400 /home/<%= @username %>/.ssh/signed.rsa.pub

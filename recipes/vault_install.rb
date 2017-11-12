@@ -27,6 +27,14 @@ docker_container 'vault-dev' do
     action :run_if_missing
 end
 
+# Token create
+#docker_exec 'vault_create_a_token' do
+#  container 'vault-dev'
+#  command ['vault', 'token-create', "#{vault_token}"]
+#  action :run
+#end
+
+# Export ENV
 docker_exec 'set_env' do
    container 'vault-dev'
    command ['export', "VAULT_ADDR=#{vault_addr}"]
